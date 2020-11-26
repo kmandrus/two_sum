@@ -1,4 +1,5 @@
-#This function will find if two numbers in an array add up to the target sum.
+#Given an array of unique integers and a target sum, determine whether any 
+#two integers in the array sum to that amount.
 def two_sum?(arr, target_sum)
     # your code here...
 end
@@ -56,8 +57,6 @@ end
 p brute_force_two_sum?(arr, 6) # => should be true
 p brute_force_two_sum?(arr, 10) # => should be false
 
-#Time: O(nlog n)
-#Space: O(n)
 def binary_search(arr, target)
     mid = (arr.length - 1) / 2
     return false if mid == 0
@@ -70,6 +69,8 @@ def binary_search(arr, target)
     end
 end
 
+#Time: O(nlog n)
+#Space: O(n)
 def sorting_two_sum?(arr, target_sum)
     sorted = arr.sort
     sorted.each do |num|
@@ -82,22 +83,22 @@ end
 p sorting_two_sum?(arr, 6) # => should be true
 p sorting_two_sum?(arr, 10) # => should be false
 
-#Time:
-#Space:
-#NOT YET WORKING!!!
+#Time: O(n)
+#Space: O(n)
 def hashing_two_sum?(arr, target_sum)
-    #hash = Hash.new(false)
-    #arr.each { |num| hash[num] = true } 
-    #arr.each do |num|
-    #    target_num = target_sum - num
-    #    puts "num: #{num} target_num: #{target_num} hash:#{hash[target_num]} "
-    #    return true if hash[target_num]
-    #end
-    #false
+    count = Hash.new(false)
+    arr.each { |num| count[num] = true } 
+    arr.each do |num|
+        target_num = target_sum - num
+        unless target_num == num
+            return true if count[target_num]
+        end
+    end
+    false
 end
 
-#p hashing_two_sum?(arr, 6) # => should be true
-#p hashing_two_sum?(arr, 10) # => should be false
+p hashing_two_sum?(arr, 6) # => should be true
+p hashing_two_sum?(arr, 10) # => should be false
 
 #Time:
 #Space:

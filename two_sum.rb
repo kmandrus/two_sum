@@ -54,6 +54,7 @@ def brute_force_two_sum?(arr, target_sum)
     false
 end
 
+p "brute force two sum"
 p brute_force_two_sum?(arr, 6) # => should be true
 p brute_force_two_sum?(arr, 10) # => should be false
 
@@ -80,6 +81,7 @@ def sorting_two_sum?(arr, target_sum)
     false
 end
 
+p "Sorting two_sum"
 p sorting_two_sum?(arr, 6) # => should be true
 p sorting_two_sum?(arr, 10) # => should be false
 
@@ -97,11 +99,64 @@ def hashing_two_sum?(arr, target_sum)
     false
 end
 
+p "Hashing implementation"
 p hashing_two_sum?(arr, 6) # => should be true
 p hashing_two_sum?(arr, 10) # => should be false
 
 #Time:
 #Space:
-def four_sum?(arr, target_sum)
-
+def two_sum_helper(arr, target_sum)
+    count = Hash.new(false)
+    arr.each { |num| count[num] = true } 
+    arr.each do |num|
+        target_num = target_sum - num
+        unless target_num == num
+            return [num, target_num] if count[target_num]
+        end
+    end
+    nil
 end
+
+#finds the smallest sum in the array 
+def min_two_sum(arr)
+    ints = arr.dup
+    min_1 = ints.min
+    ints.delete(min_1)
+    min_2 = ints.min
+    min_1 + min_2
+end
+#An implementation of two sum that returns the integers
+p "two_sum_helper"
+p two_sum_helper(arr, 6)
+p two_sum_helper(arr, 10)
+
+#Time: O(n^2)
+#Space: O(n)
+def four_sum?(arr, target_sum)
+    all_two_sums = []
+    (min_two_sum(arr)..target_sum / 2).each do |sum_1| #linear (though it varies based on length of array vs smallest integer)
+        all_two_sums << [sum_1, target_sum - sum_1] #constant
+    end
+    all_two_sums.each do |sums| #linear
+        nums = arr.dup #linear
+        first_pair = two_sum_helper(nums, sums.first) #nlogn
+        if first_pair
+            first_pair.each { |num| nums.delete(num) } #linear
+            second_pair = two_sum_helper(nums, sums.last) #nlogn
+        end
+        return true if first_pair && second_pair #constant
+    end
+    false
+end
+
+long_arr = [-2, -8, 2, 6, 5, 22, 1, 9, 16]
+
+p "four_sum"
+p four_sum?(arr, 13) #=> true
+p four_sum?(arr, 10) #=> false
+p four_sum?(long_arr, 45) #  => true
+p four_sum?(long_arr, -4) #  => true
+p four_sum?(long_arr, 10) # => true
+p four_sum?(long_arr, 4) # => true
+p four_sum?(long_arr, 100) # => false
+p four_sum?(long_arr, -20) # => false
